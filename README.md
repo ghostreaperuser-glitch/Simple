@@ -6,7 +6,7 @@ Simple demo project: JavaFX desktop CRUD app for learning ERP-style features.
 
 - Build: `./gradlew clean build`
 - Run desktop: `./gradlew runDesktop`
-- Build fat jar: `./gradlew shadowJar` -> `build/libs/businessapp-all.jar`
+- Build runnable jar: `./gradlew bootJar` -> `build/libs/*.jar`
 
 ## Development
 

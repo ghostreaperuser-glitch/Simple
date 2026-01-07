@@ -3,8 +3,7 @@ plugins {
 	id 'org.springframework.boot' version '4.0.1'
 	id 'io.spring.dependency-management' version '1.1.7'
 	id 'application'
-	id 'com.github.johnrengelman.shadow' version '8.1.1'
-}
+} 
 
 
 group = 'com.example'
@@ -45,13 +44,10 @@ application {
 	mainClass.set('com.example.businessapp.desktop.MainApp')
 }
 
-tasks.named('shadowJar') {
-	archiveBaseName.set('businessapp-all')
-	archiveClassifier.set('')
-	manifest {
-		attributes 'Main-Class': 'com.example.businessapp.desktop.MainApp'
-	}
-}
+// Use Spring Boot's bootJar to build an executable jar with dependencies
+// Run: ./gradlew bootJar
+// The jar will be in build/libs and will be executable via: java -jar build/libs/<name>.jar
+
 
 // Runtime plugin (jlink/jpackage) configuration — only applied if the plugin is available
 // Note: On Windows, producing an MSI installer requires the WiX Toolset to be installed and available on PATH.
