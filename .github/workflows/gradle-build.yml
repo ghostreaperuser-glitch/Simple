@@ -2,9 +2,9 @@ name: Gradle Build
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
   pull_request:
-    branches: [ main ]
+    branches: [main]
 
 jobs:
   build:
@@ -20,5 +20,16 @@ jobs:
           cache: gradle
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
-      - name: Build with Gradle
-        run: ./gradlew clean build --no-daemon --stacktrace
+      - name: Build with Gradle (capture output)
+        run: |
+          bash -lc './gradlew clean build --no-daemon --stacktrace 2>&1 | tee build-logs.txt; exit ${PIPESTATUS[0]}'
+      - name: Upload build artifacts (logs, reports)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: gradle-build-logs
+          path: |
+            build-logs.txt
+            build/reports/problems/**
+            build/test-results/**
+            build/libs/**
