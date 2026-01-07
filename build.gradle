@@ -83,6 +83,10 @@ tasks.register('runDesktop', JavaExec) {
 	description = 'Run the JavaFX desktop application'
 	classpath = sourceSets.main.runtimeClasspath
 	mainClass.set('com.example.businessapp.desktop.MainApp')
+	// Ensure JavaFX modules are available when using modular JDKs
+	jvmArgs = ['--add-modules=javafx.controls,javafx.fxml,javafx.graphics,javafx.base']
+	// Optionally: force software rendering when running on a remote or headless display
+	// jvmArgs += ['-Dprism.order=sw']
 }
 
 // Debug: print resolved compile classpath artifacts
