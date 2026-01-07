@@ -23,6 +23,12 @@ jobs:
       - name: Build with Gradle (capture output)
         run: |
           bash -lc './gradlew clean build --no-daemon --stacktrace 2>&1 | tee build-logs.txt; exit ${PIPESTATUS[0]}'
+      - name: Print build log (first 400 lines)
+        if: always()
+        run: |
+          echo "===== build-logs.txt (start) ====="
+          sed -n '1,400p' build-logs.txt || true
+          echo "===== build-logs.txt (end) ====="
       - name: Upload build artifacts (logs, reports)
         if: always()
         uses: actions/upload-artifact@v4
