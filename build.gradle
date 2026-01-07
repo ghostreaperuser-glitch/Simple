@@ -30,8 +30,11 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.springframework.boot:spring-boot-starter-webmvc'
-	implementation "org.openjfx:javafx-controls:17.0.7:${javafxPlatform}"
-	implementation "org.openjfx:javafx-fxml:17.0.7:${javafxPlatform}"
+	implementation group: 'org.openjfx', name: 'javafx-controls', version: '17.0.7', classifier: javafxPlatform
+	implementation group: 'org.openjfx', name: 'javafx-fxml', version: '17.0.7', classifier: javafxPlatform
+	// Explicit platform-specific modules to ensure all JavaFX types are available at compile time
+	implementation group: 'org.openjfx', name: 'javafx-graphics', version: '17.0.7', classifier: javafxPlatform
+	implementation group: 'org.openjfx', name: 'javafx-base', version: '17.0.7', classifier: javafxPlatform
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 	runtimeOnly 'com.h2database:h2'
 } 
@@ -80,4 +83,13 @@ tasks.register('runDesktop', JavaExec) {
 	description = 'Run the JavaFX desktop application'
 	classpath = sourceSets.main.runtimeClasspath
 	mainClass.set('com.example.businessapp.desktop.MainApp')
+}
+
+// Debug: print resolved compile classpath artifacts
+tasks.register('printDeps') {
+	doLast {
+		configurations.compileClasspath.resolvedConfiguration.resolvedArtifacts.each { a ->
+			println "- ${a.moduleVersion.id} -> ${a.file}"
+		}
+	}
 }
